@@ -9,7 +9,16 @@ import SwiftUI
 
 struct MapCenteringButton: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button {
+            
+        } label: {
+            Image(systemName: "location")
+                .foregroundStyle(.foregroundSecondary)
+                .font(.system(size: 20))
+                .frame(width: 44,height: 44)
+                .glassEffect(in: .rect(cornerRadius: 8))
+        }
+
     }
 }
 
