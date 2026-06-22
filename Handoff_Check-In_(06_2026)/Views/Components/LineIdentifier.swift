@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct LineIdentifier_: View {
+struct LineIdentifier: View {
     let lineNumber: String
     let lineColor:  Color
     var body: some View {
         Text(lineNumber)
             .foregroundStyle(.foregroundWhite)
             .bold()
+            .frame(width: 90,height: 44)
             .font(.system(size: 16))
             .background{
                 RoundedRectangle(cornerRadius: 8)
@@ -26,5 +27,5 @@ struct LineIdentifier_: View {
 #Preview {
     let lineNumber = "6913-10"
     let lineColor: Color = .zoningLightBlue
-    LineIdentifier_(lineNumber: lineNumber, lineColor: lineColor)
+    LineIdentifier(lineNumber: lineNumber, lineColor: lineColor)
 }
