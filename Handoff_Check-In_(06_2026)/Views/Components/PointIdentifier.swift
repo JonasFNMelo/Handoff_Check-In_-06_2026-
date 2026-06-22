@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct PointIdentifier: View {
+    let stopName: String
+    let stopAddress: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading){
+            Text(stopName)
+                .foregroundStyle(.foregroundSecondary)
+                .font(.system(size: 16))
+            Text(stopAddress)
+                .foregroundStyle(.foregroundPrimary)
+                .font(.system(size: 14))
+        }
     }
 }
 
 #Preview {
-    PointIdentifier()
+    let stopName: String = "Term. Varginha"
+    let stopAddress: String = "Av. Paulo Guilger Reimberg, 13"
+    PointIdentifier(stopName: stopName, stopAddress: stopAddress)
 }
