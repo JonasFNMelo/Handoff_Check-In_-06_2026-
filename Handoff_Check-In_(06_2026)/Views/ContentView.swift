@@ -6,16 +6,25 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+    @State var viewModel = ContentViewModel()
+    
+    @State private var position = MapCameraPosition.automatic
+    
+    @State var isSheetPresented = true
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        Map(position: $position)
+            .sheet(isPresented: $isSheetPresented) {
+               InitialSheetView()
+            }
+            .onAppear{
+                Task{
+                    await viewModel.autentication()
+                }
+            }
     }
 }
 
