@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct LinesModel: Codable {
+struct LineModel: Codable {
     var cl: Int
     var lc: Bool
-    var lt: Int
+    var lt: String
     var sl: Int
     var tl: Int
     var tp: String

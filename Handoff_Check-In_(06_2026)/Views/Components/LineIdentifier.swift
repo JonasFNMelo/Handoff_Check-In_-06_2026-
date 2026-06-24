@@ -9,9 +9,10 @@ import SwiftUI
 
 struct LineIdentifier: View {
     let lineNumber: String
+    let lineType: Int
     let lineColor:  Color
     var body: some View {
-        Text(lineNumber)
+        Text("\(lineNumber)-\(lineType)")
             .foregroundStyle(.foregroundWhite)
             .bold()
             .frame(width: 90,height: 44)
@@ -27,5 +28,6 @@ struct LineIdentifier: View {
 #Preview {
     let lineNumber = "6913-10"
     let lineColor: Color = .zoningLightBlue
-    LineIdentifier(lineNumber: lineNumber, lineColor: lineColor)
+    let lineType = 10
+    LineIdentifier(lineNumber: lineNumber, lineType: lineType, lineColor: lineColor)
 }

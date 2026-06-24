@@ -9,21 +9,17 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    @State var viewModel = ContentViewModel()
-    
+    @State private var viewModel = ContentViewModel()
     @State private var position = MapCameraPosition.automatic
     
+    @State var selectedLine: LineModel?
     @State var isSheetPresented = true
+    @State var allLines: [LineModel] = []
     
     var body: some View {
         Map(position: $position)
             .sheet(isPresented: $isSheetPresented) {
-               InitialSheetView()
-            }
-            .onAppear{
-                Task{
-                    await viewModel.autentication()
-                }
+                InitialSheetView(selectedLine: $selectedLine)
             }
     }
 }

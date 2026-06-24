@@ -1,17 +1,14 @@
 //
-//  ContentViewModel.swift
+//  InitialSheetViewModel.swift
 //  Handoff_Check-In_(06_2026)
 //
-//  Created by Jonas Fernando Nascimento Melo on 22/06/26.
+//  Created by Jonas Fernando Nascimento Melo on 24/06/26.
 //
 
-import SwiftUI
 import Foundation
-import MapKit
 
 @Observable
-class ContentViewModel {
-    var locationManager = CLLocationManager()
+class InitialSheetViewModel {
     
     private let baseURL = URL(string: "https://api.olhovivo.sptrans.com.br/v2.1")!
     private let session: URLSession
@@ -50,11 +47,22 @@ class ContentViewModel {
         print("Authenticated: \(authenticated)")
         return authenticated
     }
-    func getActualLocation() -> CLLocation? {
-        locationManager.requestLocation()
-        return locationManager.location
-    }
     
+    // MARK: - Lines
+    
+    func searchLines(text: String) async throws -> [LineModel] {
+        try await ensureAuthenticated()
+        
+        let encodedText = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? text
+        guard let url = URL(string: "\(baseURL)/Linha/Buscar?termosBusca=\(encodedText)") else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, _) = try await session.data(from: url)
+        let lines = try JSONDecoder().decode([LineModel].self, from: data)
+        
+        return lines
+    }
     
     // MARK: - Stops
     
@@ -67,29 +75,5 @@ class ContentViewModel {
         
         let (data, _) = try await session.data(from: url)
         return try JSONDecoder().decode([Stop].self, from: data)
-    }
-    
-    // MARK: - Bus Position
-    
-    func busPosition(lineCode: Int) async throws -> LinePosition {
-        try await ensureAuthenticated()
-        
-        guard let url = URL(string: "\(baseURL)/Posicao/Linha?codigoLinha=\(lineCode)") else {
-            throw URLError(.badURL)
-        }
-        
-        let (data, _) = try await session.data(from: url)
-        return try JSONDecoder().decode(LinePosition.self, from: data)
-    }
-    
-    func allBusPositions() async throws -> Data {
-        try await ensureAuthenticated()
-        
-        guard let url = URL(string: "\(baseURL)/Posicao") else {
-            throw URLError(.badURL)
-        }
-        
-        let (data, _) = try await session.data(from: url)
-        return data
     }
 }

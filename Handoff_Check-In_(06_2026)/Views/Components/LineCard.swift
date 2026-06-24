@@ -8,22 +8,19 @@
 import SwiftUI
 
 struct LineCard: View {
-    let lineNumber: String
-    let lineColor: Color
-    var mainTerminal: String
-    var secondaryTerminal: String
-    var numOfStops: Int
-    var isCircular: Bool
+    let line: LineModel
+    let stops: Int
+
     var body: some View {
         HStack(spacing: 8){
-            LineIdentifier(lineNumber: lineNumber, lineColor: lineColor)
+            LineIdentifier(lineNumber: line.lt, lineType: line.tl, lineColor: .zoningDarkBlue)
             
             VStack(alignment: .leading){
-                Text(mainTerminal)
+                Text(line.tp)
                     .fontWeight(.medium)
                     .font(.system(size: 16))
                     .foregroundStyle(.foregroundSecondary)
-                Text(secondaryTerminal)
+                Text(line.ts)
                     .fontWeight(.medium)
                     .font(.system(size: 16))
                     .foregroundStyle(.foregroundSecondary)
@@ -36,11 +33,11 @@ struct LineCard: View {
                 Spacer()
                 
                 VStack(alignment: .trailing){
-                    Text("\(numOfStops) paradas")
+                    Text("\(stops) paradas")
                         .fontWeight(.regular)
                         .font(.system(size: 12))
                         .foregroundStyle(.foregroundSecondary)
-                    if isCircular {
+                    if line.lc {
                         Image(systemName: "arrow.clockwise.circle")
                             .foregroundStyle(.compassRed)
                             .frame(width: 15,height: 15)
@@ -54,13 +51,7 @@ struct LineCard: View {
 }
 
 #Preview {
-    let lineNumber = "6913-10"
-    let lineColor: Color = .zoningLightBlue
-    var mainTerminal: String = "Itaim Bibi"
-    var secondaryTerminal: String = "Term. Varginha"
-    var numOfStops = 82
+    let lineModel = LineModel(cl: 1, lc: true, lt: "1", sl: 1, tl: 1, tp: "", ts: "")
 
-    LineCard(lineNumber: lineNumber, lineColor: lineColor,
-             mainTerminal: mainTerminal, secondaryTerminal: secondaryTerminal,
-             numOfStops: numOfStops, isCircular: true)
+    LineCard(line: lineModel, stops: 1)
 }
