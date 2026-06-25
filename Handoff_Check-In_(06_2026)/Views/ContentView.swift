@@ -10,17 +10,21 @@ import MapKit
 
 struct ContentView: View {
     @State private var viewModel = ContentViewModel()
-    @State private var position = MapCameraPosition.automatic
     
     @State var selectedLine: LineModel?
     @State var isSheetPresented = true
     @State var allLines: [LineModel] = []
     
     var body: some View {
-        Map(position: $position)
-            .sheet(isPresented: $isSheetPresented) {
-                InitialSheetView(selectedLine: $selectedLine)
+        ZStack(alignment: .topTrailing){
+            MapReader{ proxy in
+                Map(position: $viewModel.position)
             }
+                MapCenteringButton(position: $viewModel.position)
+        }
+        .sheet(isPresented: $isSheetPresented) {
+            InitialSheetView(selectedLine: $selectedLine)
+        }
     }
 }
 

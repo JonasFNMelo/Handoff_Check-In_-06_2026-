@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct MapCenteringButton: View {
+    @Binding var position: MapCameraPosition
+    
     var body: some View {
         Button {
-            
+            withAnimation {
+                position = .userLocation(fallback: .automatic)
+            }
         } label: {
             Image(systemName: "location")
                 .foregroundStyle(.foregroundSecondary)
@@ -18,10 +23,11 @@ struct MapCenteringButton: View {
                 .frame(width: 44,height: 44)
                 .glassEffect(in: .rect(cornerRadius: 8))
         }
-
+        
     }
 }
 
 #Preview {
-    MapCenteringButton()
+    @Previewable @State var position = MapCameraPosition.automatic
+    MapCenteringButton(position: $position)
 }

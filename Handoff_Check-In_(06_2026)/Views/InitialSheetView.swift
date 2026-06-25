@@ -10,7 +10,7 @@ import SwiftUI
 struct InitialSheetView: View {
     @State private var viewModel = InitialSheetViewModel()
     @State private var showAllert = false
-    @State private var fractionShowing = 0.1
+    @State private var fractionShowing: PresentationDetent = .height(100)
     @State private var searchText = ""
     @Binding var selectedLine: LineModel?
     
@@ -57,7 +57,6 @@ struct InitialSheetView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
-                
             }
             .onChange(of: searchText){
                 Task {
@@ -70,8 +69,9 @@ struct InitialSheetView: View {
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .presentationDetents([.fraction(fractionShowing), .medium, .large])
-        .interactiveDismissDisabled(true)
+        .presentationDetents([.height(100), .fraction(0.4)], selection: $fractionShowing)
+        .interactiveDismissDisabled()
+        .presentationBackgroundInteraction(.enabled(upThrough: .height(100)))
     }
 }
 

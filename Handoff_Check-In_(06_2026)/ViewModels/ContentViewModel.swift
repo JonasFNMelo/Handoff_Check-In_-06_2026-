@@ -11,8 +11,10 @@ import MapKit
 
 @Observable
 class ContentViewModel {
+    var userLocation: CLLocationCoordinate2D?
     var locationManager = CLLocationManager()
-    
+    var position: MapCameraPosition = .userLocation(fallback: .automatic)
+
     private let baseURL = URL(string: "https://api.olhovivo.sptrans.com.br/v2.1")!
     private let session: URLSession
     private var isAuthenticated = false
@@ -22,6 +24,16 @@ class ContentViewModel {
         config.httpCookieStorage = HTTPCookieStorage.shared
         config.httpShouldSetCookies = true
         self.session = URLSession(configuration: config)
+        requestUserLocationAutorization()
+    }
+    
+    // MARK: - Request Users Location
+    
+    func requestUserLocationAutorization(){
+        locationManager.requestWhenInUseAuthorization()
+        if let location = locationManager.location?.coordinate {
+            userLocation = location
+        }
     }
     
     // MARK: - Authentication

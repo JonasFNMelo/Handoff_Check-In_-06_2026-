@@ -40,7 +40,6 @@ class InitialSheetViewModel {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, _) = try await session.data(for: request)
         let authenticated = try JSONDecoder().decode(Bool.self, from: data)
